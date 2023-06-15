@@ -1,0 +1,4 @@
+"0","sum_customertype <- table(salesdata$Customer.type)"
+"0","plot2 <- as.data.frame(sum_customertype)"
+"0","plot2 <- plot2[order(plot2$Freq, decreasing = T),]"
+"0","ggplot(plot2, mapping = aes(x = Var1, y = Freq)) + geom_col(fill = ""orange"") + labs(x = ""Tipe Customer"", y = ""Jumlah"", title = ""Jumlah Pembelian berdasarkan Customer Type"") + theme(axis.text.x = element_text(angle = 90, hjust=1)) + geom_text(aes(label=Freq), col = 'white', nudge_y = -200)"

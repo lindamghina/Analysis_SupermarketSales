@@ -1,0 +1,301 @@
+---
+title: "Project Akhir Analisis dan Visualisasi Data"
+author: "J0303201158 Linda Marwatul Ghina"
+date: "2023-06-08"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+<hr style="height:2px;border-width:0;color:black;background-color:black">
+## Analisis Data *Supermarket Sales* menggunakan RStudio
+<hr style="height:1px;border-width:0;color:black;background-color:black">
+
+### Dataset
+Data bersumber dari [Kaggle](https://www.kaggle.com/datasets/aungpyaeap/supermarket-sales).
+
+### Dataset Description
+Dataset *Supermarket Sales* yang digunakan merupakan salah satu histori penjualan perusahaan pada suatu supermarket yang tercatat di 3 cabang berbeda selama 3 bulan. Dengan periode tersebut, data yang digunakan tercatat sejumlah 1.000 data. 
+
+Pada Dataset ini terdapat 17 series
+<style>
+table {
+  font-family: arial, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+}
+
+td, th {
+  border: 1px solid #dddddd;
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+  background-color: #dddddd;
+}
+</style>
+<table>
+  <tr>
+    <th>Column Name</th>
+    <th>Description</th>
+    <th>Data Types</th>
+  </tr>
+  <tr>
+    <td>Invoice.ID</td>
+    <td>Nomor identifikasi invoice slip penjualan yang dihasilkan komputer</td>
+    <td>Character</td>
+  </tr>
+  <tr>
+    <td>Branch</td>
+    <td>Cabang supermarket (terdapat 3 cabang yaitu A, B, dan C)</td>
+    <td>Character</td>
+  </tr>
+  </tr>
+  <tr>
+    <td>City</td>
+    <td>Lokasi supermarket</td>
+    <td>Character</td>
+  </tr>
+  <tr>
+    <td>Customer.type</td>
+    <td>Tipe customer, tercatat customer yang pembayaran menggunakan member card dan tanpa member card</td>
+    <td>Character</td>
+    </tr>
+  <tr>
+    <td>Gender</td>
+    <td>Gender dari customer</td>
+    <td>Character</td>
+  </tr>
+  <tr>
+    <td>Product.line</td>
+    <td>Kategori product</td>
+    <td>Character</td>
+    </tr>
+  <tr>
+    <td>Unit.price</td>
+    <td>Harga setiap product dalam $</td>
+    <td>Character</td>
+  </tr>
+  <tr>
+    <td>Quantity</td>
+    <td>Jumlah produk yang dibeli oleh customer</td>
+    <td>Integer</td>
+    </tr>
+  <tr>
+    <td>Tax</td>
+    <td>Biaya pajak 5% untuk customer</td>
+    <td>Double</td>
+  </tr>
+  <tr>
+    <td>Total</td>
+    <td>Total harga termasuk pajak</td>
+    <td>Doub;e</td>
+    </tr>
+  <tr>
+    <td>Date</td>
+    <td>Tanggal pembelian</td>
+    <td>Character</td>
+  </tr>
+  <tr>
+    <td>Time</td>
+    <td>Waktu pembelian</td>
+    <td>Character</td>
+    </tr>
+  <tr>
+    <td>Payment</td>
+    <td>Pembayaran yang digunakan oleh customer untuk pembelian (terdapat 3 metode yaitu tunai, kartu kredit dan e-wallet</td>
+    <td>Character</td>
+  </tr>
+  <tr>
+    <td>COGS</td>
+    <td>Harga product penjualan</td>
+    <td>Double</td>
+    </tr>
+  <tr>
+    <td>Gross.margin.percentage</td>
+    <td>Persentase margin kotor</td>
+    <td>Double</td>
+  </tr>
+  <tr>
+    <td>Gross.income</td>
+    <td>Pendapatan kotor</td>
+    <td>Double</td>
+    </tr>
+  <tr>
+    <td>Rating</td>
+    <td>Rate customer terhadap pengalaman berbelanja mereka</td>
+    <td>Double</td>
+  </tr>
+</table>
+
+### Tujuan
+Tujuan menganalisis data penjualan supermarket ini dapat melibatkan beberapa hal berikut:
+
+1. Dengan melihat pola-pola penjualan, tren pertumbuhan, dan perbandingan antara cabang-cabang dapat membantu mengevaluasi performa setiap cabang dan mengidentifikasi faktor-faktor yang berkontribusi pada keberhasilan atau kegagalan penjualan.
+
+2. Mengidentifikasi tren musiman dengan menganalisis data selama tiga bulan.
+
+3. Analisis data penjualan akan membantu mengidentifikasi produk-produk yang paling sukses atau populer di setiap cabang. Informasi ini dapat digunakan untuk mengarahkan upaya pemasaran lebih lanjut, menentukan penempatan produk di toko, atau mengoptimalkan persediaan produk.
+
+4. Mengidentifikasi perbedaan antara cabang dengan membandingkan data penjualan dari tiga cabang yang berbeda seperti pada data
+
+5. Membuat keputusan bisnis yang lebih baik dengan menganalisis data penjualan supermarket yang dapat memberikan wawasan lebih mendalam tentang bisnis. 
+
+Secara keseluruhan, tujuan utama dari menganalisis data penjualan supermarket dari data ini adalah untuk mendapatkan wawasan yang lebih baik tentang kinerja penjualan, mengidentifikasi tren dan pola, memahami preferensi pelanggan, serta membuat keputusan bisnis yang lebih baik untuk meningkatkan pertumbuhan dan keuntungan bisnis supermarket.
+
+### Steps
+1. Data Understanding
+2. Data Wrangling
+3. Data Analysis & Visualization
+4. Summary
+
+### Business Question
+1. Kategori produk apa yang laris dimasing-masing cabang supermarket?
+2. Bagaimana jumlah pembelian product pada Supermarket berdasarkan tipe customer yang menggunakan member card dan tanpa member card?
+3. Periode apa yang tepat dalam menjual masing-masing kategori product?
+
+
+### Data Understanding
+1. Terdapat 17 series (column) dan 1 label pada dataset
+2. Dari data yang digunakan, masih banyak kolom data yang tipe data nya tidak sesuai dengan format ketentuan.</br>
+Berikut kolom yang harus disesuaikan tipe datanya :
+- Branch, City, Customer.type, Gender, Product.line, Payment menjadi tipe data category
+- Date menjadi tipe data date time
+3. Drop kolom *Time*, karena tidak dibutuhkan
+
+### Exploratory Data Analysis (EDA)
+
+<hr style="height:1px;border-width:0;color:black;background-color:black">
+#### Data Wrangling
+<hr style="height:1px;border-width:0;color:black;background-color:black">
+**Penjelasan Dataset**
+
+```{r}
+salesdata <- read.csv("../supermarket_sales.csv")
+head(salesdata, 5)
+```
+
+**Konversi Tipe Data**
+```{r}
+library('lubridate')
+salesdata[,c("Invoice.ID", "Branch", "City", "Customer.type", "Gender", "Product.line", "Payment")] <- lapply(salesdata[,c("Invoice.ID", "Branch", "City", "Customer.type", "Gender", "Product.line", "Payment")],as.factor)
+salesdata$Date <- as.Date(salesdata$Date, format = "%m/%d/%Y")
+```
+**Menampilkan tabel tipe data dikonversi**
+```{r}
+head(salesdata, 5)
+```
+**Menghilangkan kolom yang tidak digunakan**
+```{r}
+salesdata <- salesdata[, -which(names(salesdata) == "Time")]
+```
+**Menampilkan tabel baru**
+```{r}
+head(salesdata,5)
+```
+
+**Mengecek apakah ada data yang duplikat**
+```{r}
+length(salesdata$Invoice.ID)
+length(unique(salesdata$Invoice.ID))
+```
+Setelah melakukan pengecekan dengan fungsi length dan unique tidak ditemukan adanya duplicate data. Selanjutnya kita akan melakukan pengecakan pada data untuk mengetahui apakah data terdapat Missing Value
+
+```{r}
+anyNA(salesdata)
+```
+Karena pada data tidak terdapat missing values, maka dapat melanjutkan ke tahap selanjutnya.
+<hr style="height:1px;border-width:0;color:black;background-color:black">
+#### Data Analysis and Visualization
+<hr style="height:1px;border-width:0;color:black;background-color:black">
+Exploratory Data Analysis (EDA) bertujuan untuk mendapat informasi dari data (explorasi). EDA pada dataset ini dapat divisualisasikan menggunakan ggplot2.
+
+
+**1. Kategori produk apa yang laris dimasing-masing cabang supermarket?**
+
+*Practical Statistic*
+```{r}
+sum_productline <- table(salesdata$Product.line)
+sum_productline
+```
+Berikut merupakan jumlah masing-masing kategori product pada cabang A, B dan C.
+```{r}
+sum_productline_branch <- tapply(salesdata$Product, salesdata$Branch, FUN = table)
+sum_productline_branch
+```
+*Menggunakan Library Ggplot2*
+```{r}
+library(ggplot2)
+```
+
+```{r}
+plot1 <- as.data.frame(sum_productline)
+plot1 <- plot1[order(plot1$Freq, decreasing = T),]
+ggplot(plot1, mapping = aes(x = Freq, y = reorder(Var1, Freq))) + geom_col(fill = "orange", width = 0.5) + labs(x = "Jumlah", y = "Kategori", title = "Jumlah Penjualan Berdasarkan Kategori") + theme(axis.text.x = element_text(angle = 90, hjust=1)) + geom_text(aes(label=Freq), col = 'white', nudge_x = -7)
+```
+
+*Insight* </br>
+Berdasarkan Horizontal Barchart di atas, dapat disimpulkan bahwa penjualan tertinggi di Supermarket berasal dari kategori Fashion Accessories. Visualisasi tersebut menunjukkan bahwa kategori Fashion Accessories memiliki kontribusi penjualan yang signifikan dan menjadi salah satu faktor utama dalam keberhasilan bisnis Supermarket. Informasi ini dapat menjadi acuan penting bagi manajemen Supermarket dalam mengambil keputusan terkait strategi pemasaran, stok barang, dan alokasi sumber daya yang lebih fokus pada kategori Fashion Accessories untuk memaksimalkan penjualan dan keuntungan mereka.
+
+
+**2. Bagaimana jumlah pembelian product pada Supermarket berdasarkan tipe customer yang menggunakan member card dan tanpa member card?**
+
+*Practical Statistic*
+```{r}
+sum_customertype <- table(salesdata$Customer.type)
+sum_customertype
+```
+*Menggunakan Library Ggplot2*
+```{r}
+plot2 <- as.data.frame(sum_customertype)
+plot2 <- plot2[order(plot2$Freq, decreasing = T),]
+ggplot(plot2, mapping = aes(x = Var1, y = Freq)) + geom_col(fill = "orange", width = 0.5) + labs(x = "Tipe Customer", y = "Jumlah", title = "Jumlah Pembelian berdasarkan Customer Type") + theme(axis.text.x = element_text(angle = 90, hjust=1)) + geom_text(aes(label=Freq), col = 'white', nudge_y = -200)
+```
+
+
+*Insight* </br>
+Berdasarkan Histogram Vertikal di atas, terlihat bahwa jumlah pelanggan yang menggunakan membercard untuk pembayaran produk tidak berbeda jauh dengan pelanggan yang menggunakan metode pembayaran normal. Dari visualisasi ini, dapat disimpulkan bahwa kurangnya promosi dari Supermarket berdampak pada sedikitnya perbedaan jumlah pelanggan yang memiliki membercard dengan yang tidak. Insight ini mengindikasikan bahwa Supermarket perlu meningkatkan upaya promosi untuk menarik minat pelanggan agar lebih banyak yang memanfaatkan membercard sebagai opsi pembayaran. Dengan meningkatkan kesadaran dan manfaat dari menjadi member, Supermarket dapat mendorong pertumbuhan penggunaan membercard yang lebih signifikan, yang pada gilirannya dapat meningkatkan loyalitas pelanggan dan efek positif terhadap penjualan.
+
+
+**3. Periode apa yang tepat dalam menjual masing-masing kategori product? **
+
+*Practical Statistic*
+```{r}
+salesdata$Month <- format(salesdata$Date, "%b")
+head(salesdata)
+```
+
+*Menggunakan Library Ggplot2*
+```{r}
+library("dplyr")
+```
+```{r}
+plot3 <- table(salesdata$Month, salesdata$Product.line)
+plot3 <- as.data.frame(plot3)
+colnames(plot3) <- c("Month", "Product.line", "Freq")
+ggplot(plot3, aes(x = Month, y = Freq , fill = Product.line)) +
+  geom_bar(stat = "identity", position = "stack") +
+  labs(x = "Bulan", y = "Frekuensi") +
+  scale_fill_brewer(palette = "Set3") + geom_text(aes(label = Freq), position = position_stack(vjust = 0.5))
+```
+
+*Insight* </br>
+Berdasarkan Stacked Column Chart di atas, terlihat bahwa penjualan kategori product pada bulan Januari didominasi oleh kategori product Sports and Travel, pada bulan Februari didominasi oleh kategori product Food and Beverages, dan pada bulan Maret didominasi oleh kategori product Home and Lifestyle. Informasi ini memberikan pemahaman yang penting mengenai tren penjualan bulanan di Supermarket. Hal ini dapat digunakan sebagai panduan dalam mengatur stok barang, merencanakan promosi, dan mengoptimalkan strategi pemasaran yang spesifik untuk setiap kategori product di bulan-bulan yang sesuai. Dengan menyesuaikan strategi pemasaran berdasarkan kategori product yang mendominasi setiap bulan, Kita dapat meningkatkan kepuasan pelanggan dan mengoptimalkan penjualan serta keuntungan dari kategori product yang sedang tren pada periode waktu tertentu.
+
+
+### **Summary**
+
+Berdasarkan beberapa analisis yang dilakukan untuk menjawab business question dapat diberikan beberapa kesimpulan dan strategi pemasaran yang baik untuk mengoptimalkan keuntungan dan pertumbuhan penjualan pada bisnis Supermarket diantaranya adalah sebagai berikut :
+
+**1. Kesimpulan**
+
+   a. Kategori Fashion Accessories merupakan kategori dengan penjualan tertinggi di Supermarket. Ini menunjukkan permintaan yang tinggi dari pelanggan untuk produk-produk aksesori fashion. Hal ini bisa menjadi potensi yang baik untuk fokus pada pengembangan dan peningkatan penawaran produk dalam kategori ini.
+   b. Tidak terdapat perbedaan signifikan antara pembayaran menggunakan member card dan pembayaran normal. Ini menunjukkan kurangnya motivasi atau manfaat yang jelas bagi pelanggan untuk menggunakan member card. Diperlukan strategi pemasaran yang tepat untuk mendorong penggunaan member card dan meningkatkan manfaatnya agar lebih banyak pelanggan memanfaatkannya.
+
+**2. Strategi Pemasaran**
+
+   a. Promosikan keanggotaan dan manfaat dari member card: Tingkatkan kesadaran pelanggan tentang keuntungan dan insentif yang mereka dapatkan dengan menjadi anggota dan menggunakan member card. Tawarkan diskon, poin reward, atau penawaran khusus lainnya untuk mendorong penggunaan member card.
+   b. Fokus pada peningkatan penjualan kategori product tertinggi di setiap bulan: Sesuaikan strategi pemasaran bulanan setiap cabang untuk menyoroti kategori product yang memiliki penjualan tertinggi.
+

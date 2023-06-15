@@ -1,0 +1,1 @@
+"0","salesdata <- salesdata[, -which(names(salesdata) == ""Time"")]"

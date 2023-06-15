@@ -1,0 +1,7 @@
+"0","plot3 <- table(salesdata$Month, salesdata$Product.line)"
+"0","plot3 <- as.data.frame(plot3)"
+"0","colnames(plot3) <- c(""Month"", ""Product.line"", ""Freq"")"
+"0","ggplot(plot3, aes(x = Month, y = Freq , fill = Product.line)) +"
+"0","  geom_bar(stat = ""identity"", position = ""stack"") +"
+"0","  labs(x = ""Bulan"", y = ""Frekuensi"") +"
+"0","  scale_fill_brewer(palette = ""Set3"") + geom_text(aes(label = Freq), position = position_stack(vjust = 0.5))"
